@@ -111,6 +111,7 @@ class Main:
 
     def _print_info(self, text):
         self.list_events.addItem(f"{text}")
+        self.list_events.scrollToBottom()
 
     def _update_pbar(self, progress):
         self.pbar.setValue(progress)
