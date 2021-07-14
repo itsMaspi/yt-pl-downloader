@@ -135,6 +135,7 @@ class Main:
             key = utils.get_api_key()
             if url and key:
                 self._enable_btn(False)
+                self.num_start.setEnabled(False)
                 self.list_events.clear()
                 stop_thread = False
                 self.t = ThreadProcess(url, start, pbar, list_events, btn_download)
@@ -149,6 +150,7 @@ class Main:
             stop_thread = True
             self.btn_download.setText("Stopping...")
             self.btn_download.setEnabled(False)
+            self.num_start.setEnabled(True)
 
 
 if __name__ == '__main__':
