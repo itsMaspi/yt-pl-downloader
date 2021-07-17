@@ -52,7 +52,7 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="3">
+       <item row="1" column="4">
         <widget class="QPushButton" name="btn_download">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -71,6 +71,22 @@
          </property>
         </widget>
        </item>
+       <item row="1" column="3">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::MinimumExpanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>200</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
        <item row="1" column="1">
         <widget class="QSpinBox" name="num_start"/>
        </item>
@@ -81,7 +97,7 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="1" colspan="3">
+       <item row="0" column="1" colspan="4">
         <widget class="QLineEdit" name="txt_url">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -98,20 +114,11 @@
         </widget>
        </item>
        <item row="1" column="2">
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+        <widget class="QCheckBox" name="cb_music">
+         <property name="text">
+          <string>MP3</string>
          </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::MinimumExpanding</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>200</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -149,7 +156,7 @@
      <x>0</x>
      <y>0</y>
      <width>535</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

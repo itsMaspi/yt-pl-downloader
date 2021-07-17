@@ -1,5 +1,6 @@
 import codecs
 import math
+import os
 import sys
 import threading
 
@@ -7,7 +8,7 @@ from functools import partial
 from core import utils
 
 from PyQt5 import QtCore, QtWidgets, uic
-from PyQt5.QtWidgets import QPushButton, QTextEdit, QSpinBox, QProgressBar, QListWidget, QLineEdit
+from PyQt5.QtWidgets import QPushButton, QSpinBox, QProgressBar, QListWidget, QLineEdit, QCheckBox
 
 from core.youtube_stats import YouTubeStats
 
@@ -19,10 +20,11 @@ class ThreadProcess(QtCore.QThread):
     info_msg = QtCore.pyqtSignal(str)
     enable_btn = QtCore.pyqtSignal(bool)
 
-    def __init__(self, url=None, num=None, pbar=None, list_events=None, btn_download=None):
+    def __init__(self, url=None, num=None, music=False):
         QtCore.QThread.__init__(self)
         self.url = url
         self.num = num
+        self.music = music
 
     def run(self):
         global stop_thread
@@ -56,6 +58,9 @@ class ThreadProcess(QtCore.QThread):
                     self.info_msg.emit(f"Descarregant...")
                     try:
                         yt_stats.download_video(v_url, title)  # Descarregar el video
+                        if self.music:
+                            os.system(f"ffmpeg -i output/{title}.mp4 output/{title}.mp3")
+                            os.remove(f"output/{title}.mp4")
                         self.info_msg.emit(f"FET! {(y + (i * 50)) + 1}/{t_videos}")
                         progress = int(((y + (i * 50)) + 1) / t_videos * 100)
                         self.data_downloaded.emit(progress)
@@ -101,6 +106,7 @@ class Main:
 
         self.txt_url = window.findChild(QLineEdit, "txt_url")
         self.num_start = window.findChild(QSpinBox, "num_start")
+        self.cb_music = window.findChild(QCheckBox, "cb_music")
         self.pbar = window.findChild(QProgressBar, "pbar")
         self.list_events = window.findChild(QListWidget, "list_events")
         self.btn_download = window.findChild(QPushButton, "btn_download")
@@ -138,7 +144,7 @@ class Main:
                 self.num_start.setEnabled(False)
                 self.list_events.clear()
                 stop_thread = False
-                self.t = ThreadProcess(url, start, pbar, list_events, btn_download)
+                self.t = ThreadProcess(url, start, self.cb_music.isChecked())
                 self.t.info_msg.connect(self._print_info)
                 self.t.data_downloaded.connect(self._update_pbar)
                 self.t.enable_btn.connect(self._enable_btn)
