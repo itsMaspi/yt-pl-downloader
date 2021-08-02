@@ -36,7 +36,6 @@ class ThreadProcess(QtCore.QThread):
         errors = []
 
         video_id = utils.url_to_id(list_url)  # id de la llista
-        f = codecs.open(f"output/{video_id}.txt", "a", "utf8")
         token = "CAUQAQ"  # Token de la primera pag = CAUQAQ
 
         url = f"https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId={video_id}&key={api_key}&pageToken={token}"  # URL per treure dades JSON de la llista
@@ -50,9 +49,7 @@ class ThreadProcess(QtCore.QThread):
                 title = yt_stats.get_video_title(y)  # Pillar el titol del video
                 title = utils.title_to_underscore_title(title)  # Treure els espais i caracters
                 self.info_msg.emit(f"{(y + (i * 50)) + 1} ({v_url}): {title}")
-                if start == -2:
-                    f.write(title + "\n")
-                elif idx < start:  # No descarregar fins que arribi al video inicial
+                if idx < start:  # No descarregar fins que arribi al video inicial
                     self.info_msg.emit(f"No descarregant... Next!")
                 else:  # Un cop arribat al video inicial
                     self.info_msg.emit(f"Descarregant...")
@@ -85,7 +82,6 @@ class ThreadProcess(QtCore.QThread):
                     self.info_msg.emit(f"Ha acabat, hi ha hagut aquests errors: {errors}")
             if stop_thread:
                 break
-        f.close()
         if stop_thread:
             self.enable_btn.emit(True)
             pass
