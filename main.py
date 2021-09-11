@@ -38,7 +38,7 @@ class ThreadProcess(QtCore.QThread):
         video_id = utils.url_to_id(list_url)  # id de la llista
         token = "CAUQAQ"  # Token de la primera pag = CAUQAQ
 
-        url = f"https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId={video_id}&key={api_key}&pageToken={token}"  # URL per treure dades JSON de la llista
+        url = f"https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId={video_id}&key={api_key}"  # URL per treure dades JSON de la llista
         yt_stats = YouTubeStats(url)
         t_videos = yt_stats.get_total_videos()  # Total de videos a la llista
         v_page = yt_stats.get_page_videos()  # Nº de videos a la pàgina

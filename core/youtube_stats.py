@@ -45,4 +45,4 @@ class YouTubeStats:  # Classe per gestionar les dades JSON i altres funcions del
     def download_video(self, youtube_url: str, title: str):  # Descarregar el video amb el títol
         youtube = YouTube(youtube_url)
         # youtube.register_on_progress_callback(on_progress)
-        youtube.streams.get_highest_resolution().download(output_path="output", filename=f"{title}")
+        youtube.streams.get_highest_resolution().download(output_path="output", filename=f"{title}.mp4")
