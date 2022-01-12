@@ -8,7 +8,7 @@ from functools import partial
 from core import utils
 
 from PyQt5 import QtCore, QtWidgets, uic
-from PyQt5.QtWidgets import QPushButton, QSpinBox, QProgressBar, QListWidget, QLineEdit, QCheckBox
+from PyQt5.QtWidgets import QPushButton, QSpinBox, QProgressBar, QListWidget, QLineEdit, QCheckBox, QAction
 
 from core.youtube_stats import YouTubeStats
 
@@ -100,6 +100,7 @@ class Main:
         app = QtWidgets.QApplication(sys.argv)
         window = Ui()
 
+        self.action_update_pytube = window.findChild(QAction, "actionUpdate_pyTube")
         self.txt_url = window.findChild(QLineEdit, "txt_url")
         self.num_start = window.findChild(QSpinBox, "num_start")
         self.cb_music = window.findChild(QCheckBox, "cb_music")
@@ -108,6 +109,7 @@ class Main:
         self.btn_download = window.findChild(QPushButton, "btn_download")
         self.btn_download.clicked.connect(
             partial(self.check_fields, self.txt_url, self.num_start, self.pbar, self.list_events, self.btn_download))
+        self.action_update_pytube.triggered.connect(partial(self.update_pytube))
 
         app.exec_()
 
@@ -153,6 +155,14 @@ class Main:
             self.btn_download.setText("Stopping...")
             self.btn_download.setEnabled(False)
             self.num_start.setEnabled(True)
+
+    def update_pytube(self):
+        self._print_info("Updating pytube library...")
+        result = os.system('pip install --upgrade pytube')
+        if result == 0:
+            self._print_info("Successfully updated pytube!")
+        else:
+            self._print_info("Failed to update pytube...")
 
 
 if __name__ == '__main__':
