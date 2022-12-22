@@ -2,6 +2,7 @@ import codecs
 import math
 import os
 import sys
+import subprocess
 import threading
 
 from functools import partial
@@ -56,7 +57,8 @@ class ThreadProcess(QtCore.QThread):
                     try:
                         yt_stats.download_video(v_url, title)  # Descarregar el video
                         if self.music:
-                            os.system(f"ffmpeg -i output/{title}.mp4 output/{title}.mp3")
+                            result = subprocess.run(['ffmpeg', '-y', '-i', f'output/{title}.mp4', f'output/{title}.mp3'], stdout=subprocess.PIPE)
+                            print(result)
                             os.remove(f"output/{title}.mp4")
                         self.info_msg.emit(f"FET! {(y + (i * 50)) + 1}/{t_videos}")
                         progress = int(((y + (i * 50)) + 1) / t_videos * 100)
